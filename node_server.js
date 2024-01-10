@@ -1,11 +1,8 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const cors = require('cors');
 const fs = require('fs');
 const https = require('https');
 const path = require('path');
-const Fernet = require('fernet');
-const moment = require('moment-timezone');
 
 const app = express();
 app.use(cors());

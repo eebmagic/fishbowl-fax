@@ -1,0 +1,19 @@
+{
+  "name": "fishbowl-fax",
+  "version": "1.0.0",
+  "description": "A fun little page that sends messages to a printer in our living room.",
+  "main": "node_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eebmagic/fishbowl-fax.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eebmagic/fishbowl-fax/issues"
+  },
+  "homepage": "https://github.com/eebmagic/fishbowl-fax#readme"
+}
