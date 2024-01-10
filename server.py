@@ -56,7 +56,7 @@ if __name__ == '__main__':
     context.load_cert_chain(
         certfile='ssl/fishbowl_lol.crt',
         keyfile='ssl/fishbowl.lol.key',
-        ca_certs='fishbowl_lol.ca-bundle'
+        # ca_certs='fishbowl_lol.ca-bundle'
     )
 
     app.run(
