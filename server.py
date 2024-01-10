@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import ssl
 from pymongo import MongoClient
 import os
 from datetime import datetime
@@ -51,4 +52,15 @@ def heartbeat():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)  # Run the Flask app
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    context.load_cert_chain(
+        certfile='ssl/fishbowl_lol.crt',
+        keyfile='ssl/fishbowl.lol.key',
+        ca_certs='fishbowl_lol.ca-bundle'
+    )
+
+    app.run(
+        debug=True,
+        port=5000,
+        ssl_context=context
+    )  # Run the Flask app
