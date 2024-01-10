@@ -44,5 +44,11 @@ def add_document():
     except Exception as e:
         return jsonify(error=str(e)), 500
 
+
+@app.route('/heartbeat', methods=['GET'])
+def heartbeat():
+    return 'Server is alive!', 200
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)  # Run the Flask app
