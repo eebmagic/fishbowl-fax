@@ -34,11 +34,12 @@ async function addDocumentToCollection(message) {
       'printed': false,
       'date-printed': null
     }
-    const result = await collection.insertOne();
+    const result = await collection.insertOne(doc);
     console.log(`Added doc: ${JSON.stringify(doc, null, 2)}`);
     // return true;
-  } catch {
+  } catch (error) {
     console.log(`FAILED`);
+    console.error(error);
     // return false;
   }
 }
