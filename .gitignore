@@ -1,5 +1,6 @@
 .env
 .DS_Store
 
+ssl/
 node_modules/
 package-lock.json
