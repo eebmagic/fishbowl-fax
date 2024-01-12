@@ -45,9 +45,13 @@ function App() {
               song/movie recs, suggestions, criticisms, etc.
 
               <br />
+              <br />
 
-              Just make sure to sign that it's from you!
-              (or don't ¯\_(ツ)_/¯)
+              <b>Just make sure to sign that it's from you!</b>
+
+              <br />
+
+              Or don't ¯\_(ツ)_/¯
             </p>
           </Card>
           <div className={styles.spacer} />
