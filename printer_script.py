@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import pymongo
 from bson import ObjectId
 from datetime import datetime
