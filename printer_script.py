@@ -50,7 +50,7 @@ def formatMsg(msg, WIDTH=32):
     {timestr}
 {"-" * WIDTH}
 
-  {message}
+{message}
 
 
 
