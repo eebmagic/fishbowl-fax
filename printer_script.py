@@ -3,14 +3,20 @@ import pymongo
 from bson import ObjectId
 from datetime import datetime
 import json
+import logging
 import os
 import tempfile
 import dotenv
 dotenv.load_dotenv()
 mongo_uri = os.getenv('MONGO_URI')
 
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    handlers=[logging.FileHandler('fishbowl-fax.log'),
+                              logging.StreamHandler()])
+
 # MongoDB setup (replace with your actual connection details)
-print(f"Connecting to mongo instance...")
+logging.info("Connecting to mongo instance...")
 client = pymongo.MongoClient(mongo_uri)
 db = client['fishbowl-fax']
 collection = db['messages']
@@ -53,18 +59,18 @@ def formatMsg(msg, WIDTH=32):
 
 
 # Query for documents where 'printed' is false
-print(f"Pulling mongo docs")
+logging.info("Pulling mongo docs...")
 query = {"printed": False}
 documents = collection.find(query).sort('date-recieved', pymongo.ASCENDING)
 
 # Iterate over and print each document
-print(f"Found {collection.count_documents(query)} total docs")
+logging.info(f"Found {collection.count_documents(query)} total docs")
 for doc in documents:
-    print(json.dumps(doc, indent=2, cls=MongoEncoder))
+    logging.info(json.dumps(doc, indent=2, cls=MongoEncoder))
 
     # Format string to printer friendly version
     formatted = formatMsg(doc)
-    print(formatted)
+    logging.info(formatted)
     
     try:
         # Send message to printer
@@ -74,9 +80,9 @@ for doc in documents:
 
         ## Run command
         # command = f"cat {f.name}"
-        command = f"lp -d POS58 0 -o page-left=0 {f.name}"
+        command = f"lp -d POS58 -o page-left=0 {f.name}"
         result = os.system(command)
-        print(f"Ran command with result: {result}")
+        logging.info(f"Ran command with result: {result}")
         if result != 0:
             raise Exception(f"Failed to run command: {command}\n\tFor message: {doc}")
 
@@ -92,7 +98,6 @@ for doc in documents:
                 }
             )
         else:
-            print(f"Skipping doc update because flag is set to: {UPDATE}")
+            logging.info(f"Skipping doc update because flag is set to: {UPDATE}")
     except Exception as e:
-        # print(f"Failed to print message: {doc}")
-        print(f"Exception is: {e}")
+        logging.info(f"Exception is: {e}")
