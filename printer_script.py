@@ -9,10 +9,11 @@ dotenv.load_dotenv()
 mongo_uri = os.getenv('MONGO_URI')
 
 # MongoDB setup (replace with your actual connection details)
+print(f"Connecting to mongo instance...")
 client = pymongo.MongoClient(mongo_uri)
 db = client['fishbowl-fax']
 collection = db['messages']
-UPDATE = False
+UPDATE = True
 
 class MongoEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -37,13 +38,12 @@ def formatMsg(msg, WIDTH=32):
 
     # Construct final result
     result = f'''{"#" * WIDTH}
-
     {datestr}
     {timestr}
-
 {"-" * WIDTH}
 
   {message}
+
 
 
 '''
@@ -52,6 +52,7 @@ def formatMsg(msg, WIDTH=32):
 
 
 # Query for documents where 'printed' is false
+print(f"Pulling mongo docs")
 query = {"printed": False}
 documents = collection.find(query).sort('date-recieved', pymongo.ASCENDING)
 
@@ -72,7 +73,7 @@ for doc in documents:
 
         ## Run command
         # command = f"cat {f.name}"
-        command = f"lp {f.name} -d POS58"
+        command = f"lp -d POS58 0 -o page-left=0 {f.name}"
         result = os.system(command)
         print(f"Ran command with result: {result}")
         if result != 0:
