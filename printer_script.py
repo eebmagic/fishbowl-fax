@@ -10,9 +10,10 @@ import dotenv
 dotenv.load_dotenv()
 mongo_uri = os.getenv('MONGO_URI')
 
+logfilepath = "/home/ethanbolton/Desktop/fishbowl-fax/fishbowl-fax.log"
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s',
-                    handlers=[logging.FileHandler('fishbowl-fax.log'),
+                    handlers=[logging.FileHandler(logfilepath),
                               logging.StreamHandler()])
 
 # MongoDB setup (replace with your actual connection details)
