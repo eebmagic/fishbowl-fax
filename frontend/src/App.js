@@ -88,7 +88,7 @@ function App() {
           <Card title="Welcome to Fishbowl Fax! 🖨️">
             <p>
               Send us your thoughts, prayers, hopes, dreams,
-              song/movie recs, suggestions, criticisms, etc.
+              song/movie recs, suggestions, criticisms, jokes, etc.
 
               <br />
               <br />
