@@ -110,6 +110,7 @@ function App() {
             rows={8}
             cols={31}
             onChange={(e) =>
+              // eslint-disable-next-line no-control-regex
               setMessage(e.target.value.replace(/[^\x00-\x7F]/g, ""))
             }
           />
