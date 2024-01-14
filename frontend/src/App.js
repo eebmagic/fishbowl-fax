@@ -68,6 +68,7 @@ function App() {
   const [messageValue, setMessage] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [lastMessage, setLastMessage] = useState("");
+  const TRUNCATE_SIZE = 800;
   const TIME_BUFFER = 4000;
   const toast = useRef(null);
 
@@ -112,7 +113,7 @@ function App() {
             cols={31}
             onChange={(e) =>
               // eslint-disable-next-line no-control-regex
-              setMessage(e.target.value.replace(/[^\x00-\x7F]/g, ""))
+              setMessage(e.target.value.replace(/[^\x00-\x7F]/g, "").slice(0, TRUNCATE_SIZE))
             }
           />
           <div className={styles.spacer} />
