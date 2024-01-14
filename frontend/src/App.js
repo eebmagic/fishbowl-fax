@@ -52,6 +52,7 @@ function App() {
       });
 
       setLastMessage(message.trim());
+      setMessage('');
 
     } catch (error) {
       toast.current.show({
