@@ -2,6 +2,11 @@
     margin: 2em;
 }
 
+.inputTextareaFont {
+    font-family: 'Roboto Mono', monospace;
+}
+
+
 .spacer {
     height: 20px;
     padding: 20px;
