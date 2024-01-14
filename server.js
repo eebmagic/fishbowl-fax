@@ -17,6 +17,8 @@ const options = {
 }
 
 
+const EST_OFFSET = 5 * 60 * 60 * 1000;
+
 async function addDocumentToCollection(message) {
   const dbURL = process.env.MONGO_URI;
   const client = new MongoClient(dbURL);
@@ -30,7 +32,7 @@ async function addDocumentToCollection(message) {
 
     const doc = {
       'message': message,
-      'date-received': new Date(),
+      'date-received': new Date( new Date() - EST_OFFSET),
       'printed': false,
       'date-printed': null
     }
