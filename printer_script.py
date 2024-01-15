@@ -78,6 +78,7 @@ for doc in documents:
         ## Write to temp file
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
             f.write(formatted)
+            logging.info(f"Wrote temp file: {f.name}")
 
         ## Run command
         # command = f"cat {f.name}"
