@@ -33,7 +33,20 @@ class MongoEncoder(json.JSONEncoder):
 
 
 def formatMsg(msg, WIDTH=32):
-    message = msg['message']
+    def wrapFormatMsg(msg):
+        lines = msg.split('\n')
+        final = []
+        for line in lines:
+            if len(line) > 32:
+                for i in range(math.ceil(len(line) / 32)):
+                    sub = line[i*32:(i+1)*32]
+                    final.append(sub)
+            else:
+                final.append(line)
+
+        return '\n'.join(final)
+
+    message = wrapFormatMsg(msg['message'])
     date = msg['date-received']
 
     if 4 <= date.day <= 20 or 24 <= date.day <= 30:
