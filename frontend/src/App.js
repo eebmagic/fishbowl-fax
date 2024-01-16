@@ -87,7 +87,7 @@ function App() {
       <Toast ref={toast} />
       <header className="App-header">
         <div className={styles.generalContainer}>
-          <Card title="Welcome to Fishbowl Fax! 🖨️">
+          <Card title="Welcome to Fishbowl Fax! 📠">
             <p>
               Send us your thoughts, prayers, hopes, dreams,
               song/movie recs, suggestions, criticisms, jokes, etc.
