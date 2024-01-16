@@ -56,7 +56,7 @@ def formatMsg(msg, WIDTH=32):
         suffix = ["st", "nd", "rd"][date.day % 10 - 1]
     datestr = date.strftime(f'%b {date.day}{suffix}, %Y')
 
-    timestr = date.strftime('%I : %M %p').lstrip("0").replace(" 0", " ")
+    timestr = date.strftime('%I : %M %p')
 
     # Construct final result
     result = f'''{"#" * WIDTH}
