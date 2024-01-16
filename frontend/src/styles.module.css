@@ -4,6 +4,7 @@
 
 .inputTextareaFont {
     font-family: 'Roboto Mono', monospace;
+    word-break: break-all;
 }
 
 
