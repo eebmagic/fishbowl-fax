@@ -17,12 +17,6 @@ logging.basicConfig(level=logging.INFO,
                     handlers=[logging.FileHandler(logfilepath),
                               logging.StreamHandler()])
 
-# MongoDB setup (replace with your actual connection details)
-logging.info("Connecting to mongo instance...")
-client = pymongo.MongoClient(mongo_uri)
-db = client['fishbowl-fax']
-collection = db['messages']
-UPDATE = True
 
 class MongoEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -73,47 +67,58 @@ def formatMsg(msg, WIDTH=32):
     return result
 
 
-# Query for documents where 'printed' is false
-logging.info("Pulling mongo docs...")
-query = {"printed": False}
-documents = collection.find(query).sort('date-recieved', pymongo.ASCENDING)
+try:
+    # MongoDB setup (replace with your actual connection details)
+    logging.info("Connecting to mongo instance...")
+    client = pymongo.MongoClient(mongo_uri)
+    db = client['fishbowl-fax']
+    collection = db['messages']
+    UPDATE = True
 
-# Iterate over and print each document
-logging.info(f"Found {collection.count_documents(query)} total docs")
-for doc in documents:
-    logging.info(json.dumps(doc, indent=2, cls=MongoEncoder))
+    # Query for documents where 'printed' is false
+    logging.info("Pulling mongo docs...")
+    query = {"printed": False}
+    documents = collection.find(query).sort('date-recieved', pymongo.ASCENDING)
 
-    # Format string to printer friendly version
-    formatted = formatMsg(doc)
-    logging.info(formatted)
-    
-    try:
-        # Send message to printer
-        ## Write to temp file
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-            f.write(formatted)
-            logging.info(f"Wrote temp file: {f.name}")
+    # Iterate over and print each document
+    logging.info(f"Found {collection.count_documents(query)} total docs")
+    for doc in documents:
+        logging.info(json.dumps(doc, indent=2, cls=MongoEncoder))
 
-        ## Run command
-        # command = f"cat {f.name}"
-        command = f"lp -d POS58 -o page-left=0 {f.name}"
-        result = os.system(command)
-        logging.info(f"Ran command with result: {result}")
-        if result != 0:
-            raise Exception(f"Failed to run command: {command}\n\tFor message: {doc}")
+        # Format string to printer friendly version
+        formatted = formatMsg(doc)
+        logging.info(formatted)
 
-        # Update document to set 'printed' to true
-        if UPDATE:
-            collection.update_one(
-                {"_id": doc['_id']},
-                {
-                    "$set": {
-                        "printed": True,
-                        "date-printed": datetime.now(),
-                    },
-                }
-            )
-        else:
-            logging.info(f"Skipping doc update because flag is set to: {UPDATE}")
-    except Exception as e:
-        logging.info(f"Exception is: {e}")
+        try:
+            # Send message to printer
+            ## Write to temp file
+            with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
+                f.write(formatted)
+                logging.info(f"Wrote temp file: {f.name}")
+
+            ## Run command
+            # command = f"cat {f.name}"
+            command = f"lp -d POS58 -o page-left=0 {f.name}"
+            result = os.system(command)
+            logging.info(f"Ran command with result: {result}")
+            if result != 0:
+                raise Exception(f"Failed to run command: {command}\n\tFor message: {doc}")
+
+            # Update document to set 'printed' to true
+            if UPDATE:
+                collection.update_one(
+                    {"_id": doc['_id']},
+                    {
+                        "$set": {
+                            "printed": True,
+                            "date-printed": datetime.now(),
+                        },
+                    }
+                )
+            else:
+                logging.info(f"Skipping doc update because flag is set to: {UPDATE}")
+        except Exception as e:
+            logging.info(f"Exception is: {e}")
+
+finally:
+    client.close()
