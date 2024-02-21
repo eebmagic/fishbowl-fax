@@ -121,4 +121,5 @@ try:
             logging.info(f"Exception is: {e}")
 
 finally:
+    logging.info("Closing client now that work is done.")
     client.close()
