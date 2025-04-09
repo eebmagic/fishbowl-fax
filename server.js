@@ -17,7 +17,7 @@ const options = {
 }
 
 
-const EST_OFFSET = 5 * 60 * 60 * 1000;
+const EST_OFFSET = 4 * 60 * 60 * 1000;
 
 async function addDocumentToCollection(message) {
   const dbURL = process.env.MONGO_URI;
