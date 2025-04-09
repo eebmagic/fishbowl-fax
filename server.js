@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
-const https = require('https');
 const path = require('path');
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
@@ -9,13 +8,6 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-const options = {
-  key: fs.readFileSync(path.join(__dirname, 'ssl/fishbowl.lol.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'ssl/fishbowl_lol.crt')),
-  ca: fs.readFileSync(path.join(__dirname, 'ssl/fishbowl_lol.ca-bundle')),
-}
-
 
 const EST_OFFSET = 4 * 60 * 60 * 1000;
 
@@ -59,7 +51,6 @@ app.get('/heartbeat', async (req, res) => {
 
 
 const PORT = process.env.PORT || 5000;
-https.createServer(options, app).listen(PORT, () => {
-// app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`HTTPS server running on port ${PORT}`);
 });
