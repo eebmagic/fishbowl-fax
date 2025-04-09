@@ -25,7 +25,7 @@ function App() {
         throw new Error("You've already sent that message!");
       }
 
-      const url = "https://fishbowl.lol:5000/addDocument";
+      const url = "https://fax.ebolton.site/addDocument";
       const data = { message: message };
 
       fetch(url, {
