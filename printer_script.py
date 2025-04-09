@@ -11,7 +11,7 @@ import dotenv
 dotenv.load_dotenv()
 mongo_uri = os.getenv('MONGO_URI')
 
-logfilepath = "/home/ethanbolton/Desktop/fishbowl-fax/fishbowl-fax.log"
+logfilepath = "./fishbowl-fax.log"
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s',
                     handlers=[logging.FileHandler(logfilepath),
